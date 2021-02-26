@@ -1,0 +1,10 @@
+variable "backend_storage_account_name" {}
+variable "backup_storage_account_name" {}
+variable "backend_container_name" {}
+variable "storage_account_account_tier" {}
+variable "storage_account_account_replication_type" {}
+variable "storage_account_account_kind" {}
+variable "identity_type" {}
+variable "environment_tag" {}
+variable "pre_resource_group_name" {}
+variable "location" {}
