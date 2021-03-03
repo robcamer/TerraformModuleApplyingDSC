@@ -20,4 +20,11 @@ terraform {
       version = "~> 2.48"
     }
   }
+
+   backend "azurerm" {
+    resource_group_name   = "tf-module-bootup-state-rg"
+    storage_account_name  = "tfbootstoragemodulerac"
+    container_name        = "tfrsmodule"
+    key                   = "terraform.tfstate"
+  }
 }

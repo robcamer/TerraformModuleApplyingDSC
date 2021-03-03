@@ -1,7 +1,9 @@
 provider "azurerm" {
-  # whilst the `version` attribute is optional, we recommend pinning to a given version of the Provider
-  version = ">=2.48.0"
-  features {}
+  features {
+    key_vault {
+      purge_soft_delete_on_destroy = true
+    }
+  }
   #environment = "usgovernment"
   #subscription_id = "8b0b688a-163d-4ef4-a93e-43dd1593371a"
   #subscription_id = "3d02b1ba-2d66-4c30-9d49-d75f51ea0e10"

@@ -8,3 +8,4 @@ variable "identity_type" {}
 variable "environment_tag" {}
 variable "pre_resource_group_name" {}
 variable "location" {}
+variable "key_vault_name" {}

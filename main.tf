@@ -1,10 +1,10 @@
 # PRE-CREATED RESOURCE DATA SOURCES
 data "azurerm_key_vault" "KeyVaultData" {
-  name                = var.KEY_VAULT_NAME
-  resource_group_name = var.PRE_RESOURCE_GROUP_NAME
+  name                = var.key_vault_name
+  resource_group_name = var.pre_resource_group_name
 }
 
-data "azurerm_key_vault_secret" "AutomationRunAsAccountCert" {
+data "azurerm_key_vault_certificate" "AutomationRunAsAccountCert" {
   name         = "AutomationRunAsAccountCert"
   key_vault_id = data.azurerm_key_vault.KeyVaultData.id
 }
@@ -33,9 +33,9 @@ resource "azurerm_resource_group" "automation_dsc_rg" {
   name     = var.resource_group_name
   location = var.location
 
-  # tags = {
-  #   environment = var.environment_tag
-  # }
+  tags = {
+    environment = var.environment_tag
+  }
 }
 
 # module "automation_account" {

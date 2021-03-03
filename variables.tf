@@ -27,6 +27,17 @@ variable "automation_run_as_certificate_name" {
 
 variable "environment_tag" {
   description = "(Optional) Tag values."
-  type        = set(string)
-  default     = null
+  type        = string
+  default     = "dev"
+}
+
+
+variable "pre_resource_group_name" {
+  description = "(Required) The name of the resource to deploy key vault."
+  type = string
+}
+
+variable "key_vault_name" {
+  description = "(Required) Name of the key vault."
+  type = string
 }

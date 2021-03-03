@@ -1,6 +1,9 @@
+data "azurerm_client_config" "current" {
+}
+
 resource "azurerm_resource_group" "tf-pre-created" {
   name     = var.pre_resource_group_name
-  location = var.LOCATION
+  location = var.location
 
   tags = {
     environment = var.environment_tag
@@ -19,9 +22,9 @@ resource "azurerm_storage_account" "tfstate" {
     type = var.identity_type
   }
 
-  # tags = {
-  #   environment = var.environment_tag
-  # }
+  tags = {
+    environment = var.environment_tag
+  }
 }
 
 resource "azurerm_storage_container" "tfstate_container" {
@@ -39,10 +42,20 @@ resource "azurerm_storage_account" "tfstatebak-spike" {
   account_kind             = var.storage_account_account_kind
 
   identity {
-    type = var.IDENTITY_TYPE
+    type = var.identity_type
   }
 
-  # tags = {
-  #   environment = var.environment_tag
-  # }
+  tags = {
+    environment = var.environment_tag
+  }
+}
+
+resource "azurerm_key_vault" "keyvaultautoapplydscrac" {
+  name = var.key_vault_name
+  location = var.location
+  resource_group_name = var.pre_resource_group_name
+  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  soft_delete_retention_days  = 7
+  purge_protection_enabled    = false
+  sku_name = "standard"
 }
