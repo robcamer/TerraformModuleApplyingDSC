@@ -51,11 +51,11 @@ resource "azurerm_storage_account" "tfstatebak-spike" {
 }
 
 resource "azurerm_key_vault" "keyvaultautoapplydscrac" {
-  name = var.key_vault_name
-  location = var.location
-  resource_group_name = var.pre_resource_group_name
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
-  soft_delete_retention_days  = 7
-  purge_protection_enabled    = false
-  sku_name = "standard"
+  name                       = var.key_vault_name
+  location                   = var.location
+  resource_group_name        = var.pre_resource_group_name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  soft_delete_retention_days = 7
+  purge_protection_enabled   = false
+  sku_name                   = "standard"
 }

@@ -34,10 +34,20 @@ variable "environment_tag" {
 
 variable "pre_resource_group_name" {
   description = "(Required) The name of the resource to deploy key vault."
-  type = string
+  type        = string
 }
 
 variable "key_vault_name" {
   description = "(Required) Name of the key vault."
-  type = string
+  type        = string
+}
+
+variable "dsc_config_name" {
+  description = "(Required) Specifies the name of the DSC to deploy."
+  type        = string
+}
+
+variable "dsc_config_path" {
+  description = "(Required) Specifies the path to the DSC to deploy."
+  type        = string
 }

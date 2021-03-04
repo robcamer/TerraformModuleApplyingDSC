@@ -1,0 +1,46 @@
+/*
+@TargetNode='NotWebServer'
+@GeneratedBy=robcamer
+@GenerationDate=07/29/2020 20:20:21
+@GenerationHost=ROBCAMERSB2
+*/
+
+instance of MSFT_RoleResource as $MSFT_RoleResource1ref
+{
+ResourceID = "[WindowsFeature]IIS";
+ Ensure = "Absent";
+ SourceInfo = "C:\\code\\gh\\robcamer\\terraform\\automation_dsc\\dsc\\dscConf1.ps1::16::9::WindowsFeature";
+ Name = "Web-Server";
+ ModuleName = "PSDesiredStateConfiguration";
+
+ModuleVersion = "1.0";
+
+ ConfigurationName = "dscConf1";
+
+};
+instance of OMI_ConfigurationDocument
+
+
+                    {
+ Version="2.0.0";
+ 
+
+                        MinimumCompatibleVersion = "1.0.0";
+ 
+
+                        CompatibleVersionAdditionalProperties= {"Omi_BaseResource:ConfigurationName"};
+ 
+
+                        Author="robcamer";
+ 
+
+                        GenerationDate="07/29/2020 20:20:21";
+ 
+
+                        GenerationHost="ROBCAMERSB2";
+ 
+
+                        Name="dscConf1";
+
+
+                    };

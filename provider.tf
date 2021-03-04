@@ -9,7 +9,7 @@ provider "azurerm" {
 
 terraform {
   required_providers {
-  azurerm = {
+    azurerm = {
       # The "hashicorp" namespace is the new home for the HashiCorp-maintained
       # provider plugins.
       #
@@ -21,10 +21,10 @@ terraform {
     }
   }
 
-   backend "azurerm" {
-    resource_group_name   = "tf-module-bootup-state-rg"
-    storage_account_name  = "tfbootstoragemodulerac"
-    container_name        = "tfrsmodule"
-    key                   = "terraform.tfstate"
+  backend "azurerm" {
+    resource_group_name  = "tf-module-bootup-state-rg"
+    storage_account_name = "tfbootstoragemodulerac"
+    container_name       = "tfrsmodule"
+    key                  = "terraform.tfstate"
   }
 }

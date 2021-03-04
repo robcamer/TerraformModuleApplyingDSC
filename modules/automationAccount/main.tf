@@ -4,7 +4,9 @@ resource "azurerm_automation_account" "automation_account" {
   name                = var.automation_account_name
   location            = var.location
   resource_group_name = var.resource_group_name
-  tags                = var.environment_tag
+  tags = {
+    environment = var.environment_tag
+  }
 
   sku_name = "Basic" #only Basic is supported at this time.
 }
@@ -54,20 +56,20 @@ resource "azurerm_automation_certificate" "automationAccountCertificate" {
 
   description = var.automation_run_as_certificate_name
   # Certificate must be in .pfx format without a password encoded in base64
-  base64 = data.azurerm_key_vault_secret.AutomationRunAsAccountCert.value
+  base64 = var.automation_run_as_account_cert
 }
 
 # TO DO - CLEAN UP
 resource "azurerm_automation_connection" "automationAccountConnection" {
-  name                    = var.AUTOMATION_RUN_AS_CONNECTION_NAME
-  resource_group_name     = azurerm_resource_group.automation_dsc_rg.name
+  name                    = var.automation_run_as_connection_name
+  resource_group_name     = var.resource_group_name
   automation_account_name = azurerm_automation_account.automation_account.name
-  type                    = var.AUTOMATION_RUN_AS_CONNECTION_TYPE
+  type                    = var.automation_run_as_connection_type
 
   values = {
-    "ApplicationId" : data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value,
-    "TenantId" : data.azurerm_client_config.dscSpike.tenant_id,
-    "SubscriptionId" : data.azurerm_client_config.dscSpike.subscription_id,
-    "CertificateThumbprint" : data.azurerm_key_vault_secret.AutomationRunAsCertThumbprint.value
+    "ApplicationId" : var.automation_run_as_appid,
+    "TenantId" : var.tenantId,
+    "SubscriptionId" : var.subscriptionId,
+    "CertificateThumbprint" : var.automation_run_as_certificate_thumbprint
   }
 }

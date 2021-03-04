@@ -25,7 +25,7 @@ data "azurerm_key_vault_secret" "AutomationRunAsCertThumbprint" {
 }
 
 # DATA SORUCE TO OBTAIN CLIENT ENVIRONMENT CONFIGURATION
-data "azurerm_client_config" "dscSpike" {}
+data "azurerm_client_config" "applyDSCConfig" {}
 
 
 # CREATE AUTOMATION ACCOUNT
@@ -38,10 +38,28 @@ resource "azurerm_resource_group" "automation_dsc_rg" {
   }
 }
 
-# module "automation_account" {
-#   source                             = "./modules/automation"
-#   location                           = azurerm_resource_group.automation_dsc_rg.location
-#   resource_group_name                = azurerm_resource_group.automation_dsc_rg.name
-#   automation_account_name            = var.automation_account_name
-#   automation_run_as_certificate_name = var.automation_run_as_certificate_name
-# }
+module "automation_account" {
+  source                                   = "./modules/automationAccount"
+  location                                 = azurerm_resource_group.automation_dsc_rg.location
+  resource_group_name                      = azurerm_resource_group.automation_dsc_rg.name
+  automation_account_name                  = var.automation_account_name
+  automation_run_as_certificate_name       = var.automation_run_as_certificate_name
+  automation_run_as_certificate_thumbprint = data.azurerm_key_vault_secret.AutomationRunAsCertThumbprint.value
+  automation_run_as_account_cert           = data.azurerm_key_vault_certificate.AutomationRunAsAccountCert.certificate_data_base64
+  automation_run_as_appid                  = data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value
+  tenantId                                 = data.azurerm_client_config.applyDSCConfig.tenant_id
+  subscriptionId                           = data.azurerm_client_config.applyDSCConfig.subscription_id
+
+}
+
+module "dsc" {
+  source                  = "./modules/dsc"
+  location                = azurerm_resource_group.automation_dsc_rg.location
+  resource_group_name     = azurerm_resource_group.automation_dsc_rg.name
+  automation_account_name = var.automation_account_name
+  az_signin_appid         = data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value
+  az_signin_appid_pwd     = data.azurerm_key_vault_secret.AutomationRunAsAccountAppSecret.value
+  dsc_config_path         = var.dsc_config_path
+  dsc_config_name         = var.dsc_config_name
+}
+
