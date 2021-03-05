@@ -51,3 +51,14 @@ variable "dsc_config_path" {
   description = "(Required) Specifies the path to the DSC to deploy."
   type        = string
 }
+
+variable "CLOUD_ENVIRONMENT" {
+  description = "(Optional) Specifies the cloud environment to sign-in to from PowerShell."
+  type        = string
+  default     = "AzureCloud"
+}
+
+variable "ARM_TENANT_ID" {
+  description = "(Required) Specifies Azure Tenant ID."
+  type        = string
+}

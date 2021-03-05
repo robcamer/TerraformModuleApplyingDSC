@@ -49,7 +49,6 @@ module "automation_account" {
   automation_run_as_appid                  = data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value
   tenantId                                 = data.azurerm_client_config.applyDSCConfig.tenant_id
   subscriptionId                           = data.azurerm_client_config.applyDSCConfig.subscription_id
-
 }
 
 module "dsc" {
@@ -61,5 +60,7 @@ module "dsc" {
   az_signin_appid_pwd     = data.azurerm_key_vault_secret.AutomationRunAsAccountAppSecret.value
   dsc_config_path         = var.dsc_config_path
   dsc_config_name         = var.dsc_config_name
+  cloud_environment       = var.CLOUD_ENVIRONMENT
+  tenant_id               = var.ARM_TENANT_ID
 }
 

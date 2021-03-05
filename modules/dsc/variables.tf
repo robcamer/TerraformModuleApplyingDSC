@@ -43,7 +43,13 @@ variable "az_signin_appid_pwd" {
 
 variable "cloud_environment" {
   description = "(Optional) Specifies the cloud environment to sign-in to from PowerShell."
-  type = string
+  type        = string
+  default     = "AzureCloud"
+}
+
+variable "tenant_id" {
+  description = "(Required) Specifies the Azure tenant Id."
+  type        = string
 }
 
 
