@@ -1,9 +1,9 @@
 resource "azurerm_automation_dsc_configuration" "dscWebServer" {
-  name                    = var.dsc_config_name
+  name                    = var.dsc_name
   resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account_name
   location                = var.location
-  content_embedded        = file(var.dsc_config_path)
+  content_embedded        = file(var.dsc_path)
   //  depends_on              = [azurerm_automation_account.automation_account]
 }
 
@@ -22,7 +22,7 @@ resource "null_resource" "azureSignInPWSH" {
 
 resource "null_resource" "compileDscdscConf1" {
   provisioner "local-exec" {
-    command     = "Start-AzAutomationDscCompilationJob -ResourceGroupName  ${var.resource_group_name} -AutomationAccountName ${var.automation_account_name} -ConfigurationName '${var.dsc_config_name}'"
+    command     = "Start-AzAutomationDscCompilationJob -ResourceGroupName  ${var.resource_group_name} -AutomationAccountName ${var.automation_account_name} -ConfigurationName '${var.dsc_name}'"
     interpreter = ["pwsh", "-Command"]
   }
   triggers = {

@@ -19,12 +19,12 @@ variable "automation_account_name" {
   type        = string
 }
 
-variable "dsc_config_name" {
+variable "dsc_name" {
   description = "(Required) Specifies the name of the DSC to deploy."
   type        = string
 }
 
-variable "dsc_config_path" {
+variable "dsc_path" {
   description = "(Required) Specifies the path to the DSC to deploy."
   type        = string
 }

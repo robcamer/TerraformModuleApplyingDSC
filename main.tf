@@ -24,6 +24,11 @@ data "azurerm_key_vault_secret" "AutomationRunAsCertThumbprint" {
   key_vault_id = data.azurerm_key_vault.KeyVaultData.id
 }
 
+data "azurerm_key_vault_secret" "vmTestPassword" {
+  name         = "ApplyDscTestVmPassword"
+  key_vault_id = data.azurerm_key_vault.KeyVaultData.id
+}
+
 # DATA SORUCE TO OBTAIN CLIENT ENVIRONMENT CONFIGURATION
 data "azurerm_client_config" "applyDSCConfig" {}
 
@@ -58,9 +63,18 @@ module "dsc" {
   automation_account_name = var.automation_account_name
   az_signin_appid         = data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value
   az_signin_appid_pwd     = data.azurerm_key_vault_secret.AutomationRunAsAccountAppSecret.value
-  dsc_config_path         = var.dsc_config_path
-  dsc_config_name         = var.dsc_config_name
+  dsc_path                = var.dsc_path
+  dsc_name                = var.dsc_name
   cloud_environment       = var.CLOUD_ENVIRONMENT
   tenant_id               = var.ARM_TENANT_ID
+}
+
+module "vmApplyDsc" {
+  source                                 = "./modules/vmApplyDsc"
+  location                               = azurerm_resource_group.automation_dsc_rg.location
+  vm_admin_password                      = data.azurerm_key_vault_secret.vmTestPassword.value
+  automation_account_access_key          = module.automation_account.automation_account_access_key
+  automation_account_dsc_server_endpoint = module.automation_account.automation_account_dsc_server_endpoint
+  dsc_config_name                        = var.dsc_config_name
 }
 

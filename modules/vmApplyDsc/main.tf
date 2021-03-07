@@ -1,10 +1,10 @@
 resource "azurerm_resource_group" "vmtest" {
-  name     = "vm-resources"
-  location = var.LOCATION
+  name     = var.vm_resource_group
+  location = var.location
 }
 
 resource "azurerm_virtual_network" "vmtest" {
-  name                = "acctvnrac"
+  name                = var.vm_vnet_name
   address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.vmtest.location
   resource_group_name = azurerm_resource_group.vmtest.name
@@ -18,7 +18,7 @@ resource "azurerm_subnet" "vmtest" {
 }
 
 resource "azurerm_network_interface" "vmtest" {
-  name                = "acctnirac"
+  name                = var.vm_subnet_name
   location            = azurerm_resource_group.vmtest.location
   resource_group_name = azurerm_resource_group.vmtest.name
 
@@ -29,26 +29,8 @@ resource "azurerm_network_interface" "vmtest" {
   }
 }
 
-# resource "azurerm_storage_account" "vmtest" {
-#   name                     = "accsatestrac"
-#   location            = azurerm_resource_group.vmtest.location
-#   resource_group_name = azurerm_resource_group.vmtest.name
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
-
-#   tags = {
-#     environment = "staging"
-#   }
-# }
-
-# resource "azurerm_storage_container" "vmtest" {
-#   name                  = "vhds"
-#   storage_account_name  = azurerm_storage_account.vmtest.name
-#   container_access_type = "blob"
-# }
-
 resource "azurerm_virtual_machine" "vmtest" {
-  name                  = "acctracvm"
+  name                  = var.vm_name
   location              = azurerm_resource_group.vmtest.location
   resource_group_name   = azurerm_resource_group.vmtest.name
   network_interface_ids = [azurerm_network_interface.vmtest.id]
@@ -71,7 +53,7 @@ resource "azurerm_virtual_machine" "vmtest" {
   os_profile {
     computer_name  = "acctracvm"
     admin_username = "testadmin"
-    admin_password = "Password1234!"
+    admin_password = var.vm_admin_password
   }
 
   os_profile_windows_config {
@@ -80,7 +62,7 @@ resource "azurerm_virtual_machine" "vmtest" {
 }
 
 resource "azurerm_virtual_machine_extension" "vmtest" {
-  name                 = "dscConf1"
+  name                 = var.vm_extension_name
   virtual_machine_id   = azurerm_virtual_machine.vmtest.id
   publisher            = "Microsoft.Powershell"
   type                 = "DSC"
@@ -90,8 +72,8 @@ resource "azurerm_virtual_machine_extension" "vmtest" {
   settings = <<SETTINGS
     {
       "configurationArguments": {
-          "RegistrationUrl": "${azurerm_automation_account.automation_account.dsc_server_endpoint}",
-          "NodeConfigurationName": "${var.DSCCONF1_CONFIG_NAME}"
+          "RegistrationUrl": "${var.automation_account_dsc_server_endpoint}",
+          "NodeConfigurationName": "${var.dsc_config_name}"
       }
     }
   SETTINGS
@@ -101,7 +83,7 @@ resource "azurerm_virtual_machine_extension" "vmtest" {
       "configurationArguments": {
         "registrationKey": {
           "userName": "NOT_USED",
-          "Password": "${azurerm_automation_account.automation_account.dsc_primary_access_key}"
+          "Password": "${var.automation_account_access_key}"
         }
       }
     }
