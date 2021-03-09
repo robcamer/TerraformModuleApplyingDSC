@@ -10,7 +10,7 @@ This example consists of an example that leverages three terraform modules locat
 
 Running this example will deploy an Azure Automation Account and setup the Run As account as well as update the default modules.  It will then deploy a test PowerShell Desired State Configuration (DSC) to the Azure Automation account and then compile the DSC in Azure Automation via PowerShell Core, which will need to be installed locally or as part of a CI/CD task if executing in that context.  The last module is a bit contrived but it demonstrates how to apply the test DSC to a test virtual machine.  It should result in a green status in the Azure Automation account under "State configuration (DSC)", similar to this figure.
 
-![DSC Applied to Virtual Machine](./src/img/AutomationAccountDSCAppliedToVM.png)
+![Figure 1.](./src/img/../../AutomationAccountDSCAppliedToVM.png)
 
 ## Configuring the Sample
 

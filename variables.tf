@@ -25,7 +25,6 @@ variable "environment_tag" {
   default     = "dev"
 }
 
-
 variable "pre_resource_group_name" {
   description = "(Required) The name of the resource to deploy key vault."
   type        = string

@@ -19,11 +19,6 @@ data "azurerm_key_vault_secret" "AutomationRunAsAccountAppSecret" {
   key_vault_id = data.azurerm_key_vault.KeyVaultData.id
 }
 
-data "azurerm_key_vault_secret" "AutomationRunAsCertThumbprint" {
-  name         = "AutomationRunAsCertThumbprint"
-  key_vault_id = data.azurerm_key_vault.KeyVaultData.id
-}
-
 data "azurerm_key_vault_secret" "vmTestPassword" {
   name         = "ApplyDscTestVmPassword"
   key_vault_id = data.azurerm_key_vault.KeyVaultData.id
@@ -49,7 +44,7 @@ module "automation_account" {
   resource_group_name                      = azurerm_resource_group.automation_dsc_rg.name
   automation_account_name                  = var.automation_account_name
   automation_run_as_certificate_name       = var.automation_run_as_certificate_name
-  automation_run_as_certificate_thumbprint = data.azurerm_key_vault_secret.AutomationRunAsCertThumbprint.value
+  automation_run_as_certificate_thumbprint = data.azurerm_key_vault_certificate.AutomationRunAsAccountCert.thumbprint
   automation_run_as_account_cert           = data.azurerm_key_vault_certificate.AutomationRunAsAccountCert.certificate_data_base64
   automation_run_as_appid                  = data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value
   tenantId                                 = data.azurerm_client_config.applyDSCConfig.tenant_id
