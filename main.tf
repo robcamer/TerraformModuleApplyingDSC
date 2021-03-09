@@ -60,7 +60,7 @@ module "dsc" {
   source                  = "./modules/dsc"
   location                = azurerm_resource_group.automation_dsc_rg.location
   resource_group_name     = azurerm_resource_group.automation_dsc_rg.name
-  automation_account_name = var.automation_account_name
+  automation_account_name = module.automation_account.automtion_account_name
   az_signin_appid         = data.azurerm_key_vault_secret.AutomationRunAsAccountAppId.value
   az_signin_appid_pwd     = data.azurerm_key_vault_secret.AutomationRunAsAccountAppSecret.value
   dsc_path                = var.dsc_path
@@ -72,9 +72,13 @@ module "dsc" {
 module "vmApplyDsc" {
   source                                 = "./modules/vmApplyDsc"
   location                               = azurerm_resource_group.automation_dsc_rg.location
+  vm_name                                = var.vm_name
+  vm_extension_name                      = var.vm_extension_name
+  dsc_config_name                        = var.dsc_config_name
+  vm_vnet_name                           = var.vm_vnet_name
+  vm_subnet_name                         = var.vm_subnet_name
   vm_admin_password                      = data.azurerm_key_vault_secret.vmTestPassword.value
   automation_account_access_key          = module.automation_account.automation_account_access_key
   automation_account_dsc_server_endpoint = module.automation_account.automation_account_dsc_server_endpoint
-  dsc_config_name                        = var.dsc_config_name
 }
 

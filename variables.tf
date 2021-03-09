@@ -13,12 +13,6 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "automation_account_tags" {
-  description = "(Optiona) the tags for the resource"
-  type        = string
-  default     = "{}"
-}
-
 variable "automation_run_as_certificate_name" {
   description = "(Optional) The name of the Run As Certificate to configure in the Automation Account."
   type        = string
@@ -66,4 +60,28 @@ variable "CLOUD_ENVIRONMENT" {
 variable "ARM_TENANT_ID" {
   description = "(Required) Specifies Azure Tenant ID."
   type        = string
+}
+
+variable "vm_extension_name" {
+  description = "(Optional) Name of the virtual machine extension.  Defaults to name of dsc for this example."
+  type        = string
+  default     = "dscWebServer"
+}
+
+variable "vm_name" {
+  description = "(Optional) Virtual machine name where the DSC will be applied."
+  type        = string
+  default     = "vmtestapplydsc"
+}
+
+variable "vm_vnet_name" {
+  description = "(Optional) Virtual network name for the virtual machine."
+  type        = string
+  default     = "vmvnetdsc"
+}
+
+variable "vm_subnet_name" {
+  description = "(Optional) Virtual network subnet name for the virtual machine."
+  type        = string
+  default     = "vmvnetsubnetdsc"
 }

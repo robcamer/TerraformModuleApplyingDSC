@@ -4,9 +4,6 @@ provider "azurerm" {
       purge_soft_delete_on_destroy = true
     }
   }
-  #environment = "usgovernment"
-  #subscription_id = "8b0b688a-163d-4ef4-a93e-43dd1593371a"
-  #subscription_id = "3d02b1ba-2d66-4c30-9d49-d75f51ea0e10"
 }
 
 terraform {

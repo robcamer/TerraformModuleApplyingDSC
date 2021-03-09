@@ -4,7 +4,7 @@ variable "resource_group_name" {
 }
 
 variable "environment_tag" {
-  description = "(Optiona) the tags for the resource"
+  description = "(Optional) the tags for the resource"
   type        = string
   default     = "dev"
 }

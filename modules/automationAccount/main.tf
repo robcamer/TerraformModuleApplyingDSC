@@ -11,6 +11,8 @@ resource "azurerm_automation_account" "automation_account" {
   sku_name = "Basic" #only Basic is supported at this time.
 }
 
+# This link discusses the below script and the process to update modules in an Azure Automation Account
+# https://docs.microsoft.com/en-us/azure/automation/automation-update-azure-modules
 resource "azurerm_automation_runbook" "install_automation_update_runbook" {
   name                    = "Update-AutomationAzureModulesForAccount"
   location                = var.location
